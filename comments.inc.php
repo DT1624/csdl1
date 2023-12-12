@@ -593,7 +593,7 @@ function displayMenu($conn, $userID) {
         ';
 }
 
-function displayMenuAdmin($conn) {
+function displayMenuAdmin($conn, $userID) {
 $sql1 = "SELECT * from users WHERE isAccept = 0";
 $sql2 = "SELECT * FROM posts WHERE isAccepted = 0";
 $result1 = $conn->query($sql1);
@@ -624,7 +624,7 @@ echo '
                 </a>
             </div>
 
-            <a href="#11" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white w3-right"><i
+            <a href="logout.php?userId='.$userID.'" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white w3-right"><i
                 class="fa fa-sign-out">Sign out</i></a>
         </div>
     </div>

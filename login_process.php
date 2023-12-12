@@ -13,15 +13,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (password_verify($password, $row["password"])) {
             $sql1 = "SELECT * FROM users WHERE username='$username'";
             $result1 = $conn->query($sql1);
-            $row = $result1->fetch_row();
+            $row = $result1->fetch_assoc();
             $_SESSION['message'] = "Đăng nhập thành công!";
-            $_SESSION['userID'] = $row[0];
+            $_SESSION['userID'] = $row['userID'];
             $isLogin = intval(true);
 
             $stmt = $conn->prepare("INSERT INTO personalusers (userIDpersonal, isLogin) VALUES (?, ?)");
             $stmt->bind_param("si", $_SESSION['userID'], $isLogin);
             $result3 = $stmt->execute();
-            header("Location: forum.php?category=recently&page=1");
+
+            if($row['userPermission'] === "admin") {
+                header("Location: admin.php");
+            } else {
+                header("Location: forum.php?category=recently&page=1");
+            }
+            
         } else {
             $_SESSION['message'] = "Sai mật khẩu";
             $_SESSION["loginSucces"] = true;

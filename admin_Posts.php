@@ -30,7 +30,7 @@
     <?php
     require_once("comments.inc.php");
     require_once("connection.php");
-    displayMenuAdmin($conn);
+    displayMenuAdmin($conn, $userID);
     ?>
   </div>
   <!-- khung đăng bài -->

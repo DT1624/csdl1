@@ -1,3 +1,8 @@
+<?php
+session_start();
+require_once("connection.php");
+$userID = $_SESSION['userID'];
+?>
 <!DOCTYPE html>
 <html>
 
@@ -30,7 +35,7 @@
     <?php
       require_once("comments.inc.php");
       require_once("connection.php");
-      displayMenuAdmin($conn);
+      displayMenuAdmin($conn, $userID);
     ?>
     </div>
     <!-- khung đăng bài -->
