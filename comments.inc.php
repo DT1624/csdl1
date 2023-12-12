@@ -618,6 +618,12 @@ echo '
                 </a>
             </div>
 
+            <div class="w3-dropdown-hover w3-hide-small" style="height:51px !important">
+                <a href="admin_Groups.php" class="w3-bar-item w3-button w3-hide- w3-padding-large w3-hover-white"><i class="fa fa-plus"></i>
+                    <span class="w3-badge w3-right w3-small w3-green"><i class="fa fa-group"></i></span>
+                </a>
+            </div>
+
             <a href="#11" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white w3-right"><i
                 class="fa fa-sign-out">Sign out</i></a>
         </div>
@@ -687,6 +693,32 @@ function checkPost($conn) {
                     <div class='description-container' style='height: auto; max-height: 300px; resize:none; overflow-y: auto;'>
                         <p>{$row['descriptionPost']}</p>
                     </div>
+                    <br>
+                </div>";
+        }
+    } 
+}
+
+function checkGroup($conn) {
+    $sql = "SELECT * from groupss";
+    $result = $conn->query($sql);
+
+    if($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            echo "
+                <div class='post'>
+                    <div style='text-align: right;'>
+                        <a href='processGroup.php?id=del&categoryGroup=".$row['categoryGroup']."' style='font-size: small; font-weight: 700; display: inline-block;'>
+                            <button style='border: 2px solid; background-color: #55ff99!important '><i class='fa fa-remove' ></i></button>
+                        </a>
+                    </div>
+                    <a style='text-overflow: ellipsis;text-decoration:none;'>
+                        <div class='comment-container' style='display: flex; align-items: center;'>
+                            <div style='text-align: left;'>     
+                                <span class='user-name'>".$row['categoryGroup']."</span><br>
+                            </div>
+                        </div>
+                    </a>
                     <br>
                 </div>";
         }

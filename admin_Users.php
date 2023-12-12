@@ -35,6 +35,7 @@
     </div>
     <!-- khung đăng bài -->
     <div class="w3-container w3-content" style="width: 75%; max-width:1400px;margin:120px auto;" id="page-container">
+    <h1 >User</h1>
       <div class="w3-row" style="height: 600px;">
         <div class="w3-col m3">
           <div class="w3-card w3-round" style="max-width: 0%; overflow:auto; max-height: 500px;">
