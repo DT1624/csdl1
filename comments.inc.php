@@ -467,15 +467,31 @@ function getComments($conn, $userID, $postID) {
         $sql1 = "SELECT * FROM users WHERE userID = \"".$row['userIDComment']."\"";
         $result1 = $conn->query($sql1);
         $row1 = $result1->fetch_assoc();
+
+        //trả vể người được reply
+        $fullNameAns = '';
+        if($row['repCommentID'] !== null)
+        {
+            $commentID = $row['commentID'];
+            $ans = "SELECT * FROM users u
+            JOIN comments c ON u.userID = c.userIDComment
+            JOIN comments c1 ON c.commentID = c1.repCommentID
+            WHERE c1.commentID = '$commentID'";
+            $resAns = $conn->query($ans);   
+            $re = $resAns->fetch_assoc();
+            if($re['userID'] !== $row1['userID']) $fullNameAns = " reply ". $re['fullName'];
+        }
+        
         echo "
-            <div>
+            <div id='{$row['commentID']}' href='#{$row['repCommentID']}'>
+            <a class='scroll-link' href='#{$row['repCommentID']}' style='text-decoration:none'>
                 <div> 
                     <p style='text-align: right; font-size: small; font-weight: 600'><i>{$row['dateOfComment']}</i></p>
                     <a href='profile.php?userId={$row['userIDComment']}' style='text-decoration:none'>
                         <div class='comment-container' style='display: flex; align-items: center;'>
                             <img src='{$row1['linkAva']}' class='w3-circle' style='height:50px;width:50px; object-fit: cover; border-radius: 50%;margin-right: 10px;' alt='Avatar'>
                             <div style='text-align: left;'> 
-                                <span class='user-name'>{$row1['fullName']}</span><br>
+                                <span class='user-name'>{$row1['fullName']}<a href='profile.php?userId={$re['userID']}' style='text-decoration:none'>{$fullNameAns}</a></span><br>
                             </div>
                         </div>
                     </a>
@@ -513,10 +529,29 @@ function getComments($conn, $userID, $postID) {
         }
         echo
                 "</div>
+            </a>
             </div>
             
             <hr style='border-width: 10px; border-color:#037937;'><hr>";
     }
+    echo "
+    <script>
+        document.querySelectorAll('.scroll-link').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 50, // Điều chỉnh giảm khoảng cách nếu có thanh đầu trang cố định
+                        behavior: 'smooth' // Cuộn mượt
+                    });
+                }
+            });
+        });
+    </script>";
 }
 
 //hàm xử lý khi nhấn nút delete
